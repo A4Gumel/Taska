@@ -47,12 +47,13 @@
                         android:id="@+id/password_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/purple5"
+                        android:fontFamily="@font/jetbrains_mono_medium"
                         android:imeOptions="actionSearch"
-                        android:inputType="textFilter"
-                        android:textSize="16sp"
                         android:importantForAutofill="no"
-                        android:fontFamily="@font/jetbrains_mono_medium"/>
+                        android:inputType="textFilter"
+                        android:textColor="@color/purple5"
+                        android:textColorHint="#3949AB"
+                        android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +72,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layout_margin="@dimen/normal_padding"
+        tools:listitem="@layout/note_item_layout"
         android:layout_marginBottom="@dimen/normal_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:transitionGroup="true"/>
