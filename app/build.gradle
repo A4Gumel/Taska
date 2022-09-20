@@ -44,4 +44,6 @@ dependencies {
 
     // Android 12 Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    implementation "dev.sasikanth:colorsheet:1.0.1"
 }
