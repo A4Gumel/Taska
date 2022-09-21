@@ -68,5 +68,7 @@
 
     <color name="purple5">#9C27B0</color>
 
+    <color name="text_primary">#212121</color>
+
 
 </resources>

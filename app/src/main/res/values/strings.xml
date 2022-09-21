@@ -8,4 +8,5 @@
     <string name="choose_color">Choose color</string>
     <string name="save_note">Save or update note</string>
     <string name="note_title">Note title</string>
+    <string name="note">Note</string>
 </resources>

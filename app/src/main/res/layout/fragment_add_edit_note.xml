@@ -91,11 +91,57 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+                    <com.a4gumel.taska.markdown.MarkdownEditText
+                        android:id="@+id/note_content_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/normal_margin"
+                        android:layout_marginTop="@dimen/normal_padding"
+                        android:background="@color/purple1"
+                        android:hint="@string/note"
+                        android:importantForAutofill="no"
+                        android:inputType="none"
+                        android:padding="@dimen/normal_padding"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_primary"/>
+
+
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 
         </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/normal_padding"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pick_color_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/normal_padding"
+            android:src="@drawable/ic_color_lens"
+            android:backgroundTint="@color/yellow6"
+            android:layout_gravity="end"
+            android:tint="@color/purple5"
+            android:contentDescription="@string/pick_a_color" />
+
+        <com.a4gumel.taska.markdown.MarkdownStylesBar
+            android:id="@+id/note_markdowns"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:elevation="4dp"
+            android:padding="4dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
