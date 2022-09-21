@@ -47,4 +47,9 @@ dependencies {
 
     // Color spectrum
     implementation "dev.sasikanth:colorsheet:1.0.1"
+
+    implementation "io.noties.markwon:core:4.6.1"
+    implementation "io.noties.markwon:html:4.6.1"
+    implementation "io.noties.markwon:ext-strikethrough:4.6.1"
+    implementation "io.noties.markwon:ext-tasklist:4.6.1"
 }

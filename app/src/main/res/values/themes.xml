@@ -74,4 +74,19 @@
         <item name="fontFamily">@font/jetbrains_mono_medium</item>
         <item name="android:textAlignment">textStart</item>
     </style>
+
+    <style name="NoteTitleInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="fontFamily">@font/jetbrains_mono_medium</item>
+        <item name="boxBackgroundColor">@color/purple1</item>
+        <item name="boxStrokeColor">@color/yellow6</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusBottomStart">24dp</item>
+        <item name="boxCornerRadiusBottomEnd">24dp</item>
+        <item name="boxCornerRadiusTopStart">24dp</item>
+        <item name="boxCornerRadiusTopEnd">24dp</item>
+        <item name="colorControlNormal">@color/yellow6</item>
+        <item name="backgroundColor">@color/purple1</item>
+        <item name="startIconTint">@color/purple5</item>
+    </style>
+
 </resources>
