@@ -1,60 +1,127 @@
 package com.a4gumel.taska.fragments
 
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.a4gumel.taska.R
+import com.a4gumel.taska.activities.MainActivity
+import com.a4gumel.taska.databinding.FragmentAddEditNoteBinding
+import com.a4gumel.taska.model.Note
+import com.a4gumel.taska.utils.closeKeyboard
+import com.a4gumel.taska.viewModel.NoteActivityViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
+import dev.sasikanth.colorsheet.ColorSheet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import java.text.SimpleDateFormat
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddEditNoteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddEditNoteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
+
+    private var TAG: String = "AddEditNoteFragment"
+
+    private lateinit var navController: NavController
+    private lateinit var contentBinding: FragmentAddEditNoteBinding
+    private var note: Note? = null
+    private var color=-1
+    private val noteActivityViewModel: NoteActivityViewModel by activityViewModels()
+    private val currentDate = SimpleDateFormat.getInstance().format(Date())
+    private var job = CoroutineScope(Dispatchers.Main)
+    private val args: AddEditNoteFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+        val animation = MaterialContainerTransform().apply {
+            drawingViewId=R.id.nav_host_fragment
+            scrimColor= Color.TRANSPARENT
+            duration=300L
+        }
+
+        sharedElementEnterTransition=animation
+        sharedElementReturnTransition=animation
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        contentBinding = FragmentAddEditNoteBinding.bind(view)
+
+        navController = Navigation.findNavController(view)
+
+        val activity = activity as MainActivity
+
+        activity.setSupportActionBar(contentBinding.addNoteToolbar)
+
+        contentBinding.addNoteToolbar.setNavigationOnClickListener {
+            requireView().closeKeyboard()
+            navController.popBackStack()
+        }
+
+        contentBinding.saveNote.setOnClickListener {
+
+            saveNote()
+
+            try {
+
+                contentBinding.noteContentEdt.setOnFocusChangeListener { _, hasFocus ->
+
+                    if (hasFocus) {
+
+                        contentBinding.noteMarkdowns.visibility = View.VISIBLE
+                        contentBinding.noteContentEdt.setStylesBar(contentBinding.noteMarkdowns)
+                    } else contentBinding.noteMarkdowns.visibility = View.GONE
+                }
+            } catch (e: Throwable) {
+
+                Log.e(TAG, e.printStackTrace().toString())
+            }
+        }
+
+        val colors = resources.getIntArray(R.array.colors)
+
+        contentBinding.pickColorFab.setOnClickListener {
+
+            ColorSheet().colorPicker(
+                colors = colors,
+                noColorOption = true,
+                listener = { value ->
+                    // Handle color
+                    color=value
+                    contentBinding.apply {
+                        contentBinding.noteScrollView.setBackgroundColor(color)
+                        activity.window.statusBarColor=color
+                        activity.window.navigationBarColor=color
+                    }
+                })
+                .show(activity.supportFragmentManager)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_edit_note, container, false)
+    private fun saveNote() {
+
+//        if (contentBinding.noteContentEdt.text.toString().isEmpty() || contentBinding.searchNoteEdt.text.toString().isEmpty()) {
+//
+//            Snackbar.make(contentBinding.bottomLayout, "Please enter something to save", Snackbar.LENGTH_LONG).show()
+//        } else{
+//
+//            note = args.note
+//
+//            when(note) {
+//                null -> noteActivityViewModel.addNote(
+//
+//                )
+//            }
+//        }
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddEditNoteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddEditNoteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
