@@ -73,7 +73,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/searchInput"
+                            android:id="@+id/noteTitleInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -83,7 +83,7 @@
                             style="@style/NoteTitleInputStyle">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/searchNoteEdt"
+                                android:id="@+id/noteTitleEdt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/jetbrains_mono_medium"
