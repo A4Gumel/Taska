@@ -95,7 +95,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
             ColorSheet().colorPicker(
                 colors = colors,
-                noColorOption = true,
+                noColorOption = false,
                 listener = { value ->
                     // Handle color
                     color = value
@@ -103,6 +103,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                         contentBinding.noteScrollView.setBackgroundColor(color)
                         activity.window.statusBarColor = color
                         activity.window.navigationBarColor = color
+                        contentBinding.parentLayout.setBackgroundColor(color)
                     }
                 })
                 .show(activity.supportFragmentManager)
