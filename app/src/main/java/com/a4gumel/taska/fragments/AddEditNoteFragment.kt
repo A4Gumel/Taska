@@ -66,24 +66,27 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
             navController.popBackStack()
         }
 
+        try {
+
+            contentBinding.noteContentEdt.setOnFocusChangeListener { _, hasFocus ->
+
+                Log.d(TAG, "The focus : ".plus(hasFocus))
+
+                if (hasFocus) {
+
+                    contentBinding.noteContentEdt.setStylesBar(contentBinding.noteMarkdowns)
+                    contentBinding.noteMarkdowns.visibility = View.VISIBLE
+
+                } else contentBinding.noteMarkdowns.visibility = View.GONE
+            }
+        } catch (e: Throwable) {
+
+            Log.e(TAG, e.printStackTrace().toString())
+        }
+
         contentBinding.saveNote.setOnClickListener {
 
             saveNote()
-
-            try {
-
-                contentBinding.noteContentEdt.setOnFocusChangeListener { _, hasFocus ->
-
-                    if (hasFocus) {
-
-                        contentBinding.noteMarkdowns.visibility = View.VISIBLE
-                        contentBinding.noteContentEdt.setStylesBar(contentBinding.noteMarkdowns)
-                    } else contentBinding.noteMarkdowns.visibility = View.GONE
-                }
-            } catch (e: Throwable) {
-
-                Log.e(TAG, e.printStackTrace().toString())
-            }
         }
 
         val colors = resources.getIntArray(R.array.colors)
