@@ -31,7 +31,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
     private lateinit var navController: NavController
     private lateinit var contentBinding: FragmentAddEditNoteBinding
     private var note: Note? = null
-    private var color=-1
+    private var color = -1
     private val noteActivityViewModel: NoteActivityViewModel by activityViewModels()
     private val currentDate = SimpleDateFormat.getInstance().format(Date())
     private var job = CoroutineScope(Dispatchers.Main)
@@ -41,13 +41,13 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
         super.onCreate(savedInstanceState)
 
         val animation = MaterialContainerTransform().apply {
-            drawingViewId=R.id.nav_host_fragment
-            scrimColor= Color.TRANSPARENT
-            duration=300L
+            drawingViewId = R.id.nav_host_fragment
+            scrimColor = Color.TRANSPARENT
+            duration = 300L
         }
 
-        sharedElementEnterTransition=animation
-        sharedElementReturnTransition=animation
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,24 +66,27 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
             navController.popBackStack()
         }
 
+        try {
+
+            contentBinding.noteContentEdt.setOnFocusChangeListener { _, hasFocus ->
+
+                Log.d(TAG, "The focus : ".plus(hasFocus))
+
+                if (hasFocus) {
+
+                    contentBinding.noteContentEdt.setStylesBar(contentBinding.noteMarkdowns)
+                    contentBinding.noteMarkdowns.visibility = View.VISIBLE
+
+                } else contentBinding.noteMarkdowns.visibility = View.GONE
+            }
+        } catch (e: Throwable) {
+
+            Log.e(TAG, e.printStackTrace().toString())
+        }
+
         contentBinding.saveNote.setOnClickListener {
 
             saveNote()
-
-            try {
-
-                contentBinding.noteContentEdt.setOnFocusChangeListener { _, hasFocus ->
-
-                    if (hasFocus) {
-
-                        contentBinding.noteMarkdowns.visibility = View.VISIBLE
-                        contentBinding.noteContentEdt.setStylesBar(contentBinding.noteMarkdowns)
-                    } else contentBinding.noteMarkdowns.visibility = View.GONE
-                }
-            } catch (e: Throwable) {
-
-                Log.e(TAG, e.printStackTrace().toString())
-            }
         }
 
         val colors = resources.getIntArray(R.array.colors)
@@ -92,14 +95,15 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
             ColorSheet().colorPicker(
                 colors = colors,
-                noColorOption = true,
+                noColorOption = false,
                 listener = { value ->
                     // Handle color
-                    color=value
+                    color = value
                     contentBinding.apply {
                         contentBinding.noteScrollView.setBackgroundColor(color)
-                        activity.window.statusBarColor=color
-                        activity.window.navigationBarColor=color
+                        activity.window.statusBarColor = color
+                        activity.window.navigationBarColor = color
+                        contentBinding.parentLayout.setBackgroundColor(color)
                     }
                 })
                 .show(activity.supportFragmentManager)
@@ -108,19 +112,39 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
     private fun saveNote() {
 
-//        if (contentBinding.noteContentEdt.text.toString().isEmpty() || contentBinding.searchNoteEdt.text.toString().isEmpty()) {
-//
-//            Snackbar.make(contentBinding.bottomLayout, "Please enter something to save", Snackbar.LENGTH_LONG).show()
-//        } else{
-//
-//            note = args.note
-//
-//            when(note) {
-//                null -> noteActivityViewModel.addNote(
-//
-//                )
-//            }
-//        }
+        if (contentBinding.noteContentEdt.text.toString()
+                .isEmpty() || contentBinding.noteTitleEdt.text.toString().isEmpty()
+        ) {
+
+            Snackbar.make(
+                contentBinding.bottomLayout,
+                "Please enter something to save",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } else {
+
+            note = args.note
+
+            when (note) {
+                null -> {
+                    noteActivityViewModel.addNote(
+                        Note(
+                            0,
+                            contentBinding.noteTitleEdt.text.toString(),
+                            contentBinding.noteContentEdt.getMD(),
+                            currentDate,
+                            color
+                        )
+                    )
+
+                    navController.navigate(AddEditNoteFragmentDirections.actionAddEditNoteFragmentToHomeFragment())
+
+                } else -> {
+
+                    
+                }
+            }
+        }
 
     }
 

@@ -71,7 +71,6 @@
     <color name="text_primary">#212121</color>
 
     <array name="colors">
-        <item>@color/white</item>
         <item>@color/purple1</item>
         <item>@color/purple2</item>
         <item>@color/purple3</item>

@@ -8,6 +8,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.AddEditNoteFragment">
@@ -73,7 +74,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/searchInput"
+                            android:id="@+id/noteTitleInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -83,7 +84,7 @@
                             style="@style/NoteTitleInputStyle">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/searchNoteEdt"
+                                android:id="@+id/noteTitleEdt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/jetbrains_mono_medium"
