@@ -1,9 +1,10 @@
-package com.a4gumel.taska.repository
+package com.a4gumel.taska.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a4gumel.taska.model.Note
+import com.a4gumel.taska.repository.NoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

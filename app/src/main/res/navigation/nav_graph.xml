@@ -23,5 +23,10 @@
             android:id="@+id/action_addEditNoteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
 
+        <argument android:name="Note"
+            android:defaultValue="@null"
+            app:argType="com.a4gumel.taska.model.Note"
+            app:nullable="true"/>
+
     </fragment>
 </navigation>

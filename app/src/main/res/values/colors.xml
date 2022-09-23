@@ -70,5 +70,38 @@
 
     <color name="text_primary">#212121</color>
 
+    <array name="colors">
+        <item>@color/white</item>
+        <item>@color/purple1</item>
+        <item>@color/purple2</item>
+        <item>@color/purple3</item>
+        <item>@color/purple4</item>
+        <item>@color/purple5</item>
+        <item>@color/pink1</item>
+        <item>@color/pink2</item>
+        <item>@color/pink3</item>
+        <item>@color/pink4</item>
+        <item>@color/pink5</item>
+        <item>@color/pink6</item>
+        <item>@color/yellow1</item>
+        <item>@color/yellow2</item>
+        <item>@color/yellow3</item>
+        <item>@color/yellow4</item>
+        <item>@color/yellow5</item>
+        <item>@color/yellow6</item>
+        <item>@color/green1</item>
+        <item>@color/green2</item>
+        <item>@color/green3</item>
+        <item>@color/green4</item>
+        <item>@color/green5</item>
+        <item>@color/green6</item>
+        <item>@color/blue1</item>
+        <item>@color/blue2</item>
+        <item>@color/blue3</item>
+        <item>@color/blue4</item>
+        <item>@color/blue5</item>
+        <item>@color/blue6</item>
+    </array>
+
 
 </resources>
