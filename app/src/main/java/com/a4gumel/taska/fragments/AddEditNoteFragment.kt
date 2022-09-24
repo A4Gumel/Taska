@@ -22,6 +22,8 @@ import com.google.android.material.transition.MaterialContainerTransform
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -111,6 +113,31 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                 })
                 .show(activity.supportFragmentManager)
         }
+
+        // When user opens up and existing note then
+        setUpNote()
+    }
+
+    private fun setUpNote() {
+        val note = args.note
+        val title = contentBinding.noteTitleEdt
+        val content = contentBinding.noteContentEdt
+
+        if (note != null) {
+            title.setText(note.title)
+            content.renderMD(note.content)
+
+            contentBinding.apply {
+                job.launch {
+                    delay(10)
+                }
+                contentBinding.noteScrollView.setBackgroundColor(note.color)
+                contentBinding.parentLayout.setBackgroundColor(note.color)
+            }
+
+            activity?.window?.statusBarColor = note.color
+            activity?.window?.navigationBarColor = note.color
+        }
     }
 
     private fun saveNote() {
@@ -148,13 +175,30 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
                     navController.navigate(AddEditNoteFragmentDirections.actionAddEditNoteFragmentToHomeFragment())
 
-                } else -> {
+                }
+                else -> {
 
-                    
+                    updateNote()
+                    navController.popBackStack()
                 }
             }
         }
 
+    }
+
+    private fun updateNote() {
+
+        if (note!=null) {
+            noteActivityViewModel.updateNote(
+                Note(
+                    note!!.id,
+                    contentBinding.noteTitleEdt.text.toString(),
+                    contentBinding.noteContentEdt.getMD(),
+                    currentDate,
+                    color
+                )
+            )
+        }
     }
 
 }
