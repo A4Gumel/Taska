@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -32,6 +34,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
     private lateinit var contentBinding: FragmentAddEditNoteBinding
     private var note: Note? = null
     private var color = -1
+    private lateinit var result: String
     private val noteActivityViewModel: NoteActivityViewModel by activityViewModels()
     private val currentDate = SimpleDateFormat.getInstance().format(Date())
     private var job = CoroutineScope(Dispatchers.Main)
@@ -135,6 +138,12 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                             currentDate,
                             color
                         )
+                    )
+
+                    result = "Saved"
+                    setFragmentResult(
+                        "key",
+                        bundleOf("bundleKey" to result)
                     )
 
                     navController.navigate(AddEditNoteFragmentDirections.actionAddEditNoteFragmentToHomeFragment())

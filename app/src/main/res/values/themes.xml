@@ -56,7 +56,7 @@
 
     <style name="NoteItemTitleStyle" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:ellipsize">end</item>
-        <item name="android:textColor">@color/blue6</item>
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">4dp</item>
@@ -72,7 +72,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:padding">4dp</item>
         <item name="android:layout_margin">4dp</item>
-        <item name="fontFamily">@font/jetbrains_mono_medium</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="fontFamily">@font/jetbrains_mono_regular</item>
         <item name="android:textAlignment">textStart</item>
     </style>
 
