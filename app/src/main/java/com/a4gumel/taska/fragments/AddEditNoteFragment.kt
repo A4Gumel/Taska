@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
@@ -66,6 +67,11 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
         activity.setSupportActionBar(contentBinding.addNoteToolbar)
 
+        ViewCompat.setTransitionName(
+            contentBinding.noteScrollView,
+            "recyclerView_${args.note?.id}"
+        )
+
         contentBinding.addNoteToolbar.setNavigationOnClickListener {
             requireView().closeKeyboard()
             navController.popBackStack()
@@ -124,6 +130,8 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
         val content = contentBinding.noteContentEdt
 
         if (note != null) {
+
+            color = note.color
             title.setText(note.title)
             content.renderMD(note.content)
 
@@ -131,12 +139,12 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                 job.launch {
                     delay(10)
                 }
-                contentBinding.noteScrollView.setBackgroundColor(note.color)
-                contentBinding.parentLayout.setBackgroundColor(note.color)
+                contentBinding.noteScrollView.setBackgroundColor(color)
+                contentBinding.parentLayout.setBackgroundColor(color)
             }
 
-            activity?.window?.statusBarColor = note.color
-            activity?.window?.navigationBarColor = note.color
+            activity?.window?.statusBarColor = color
+            activity?.window?.navigationBarColor = color
         }
     }
 

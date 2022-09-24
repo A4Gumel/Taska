@@ -19,6 +19,7 @@ import io.noties.markwon.Markwon
 import io.noties.markwon.MarkwonVisitor
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
+import io.noties.markwon.html.HtmlPlugin
 import org.commonmark.node.SoftLineBreak
 
 class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtilCallback()){
@@ -34,6 +35,7 @@ class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtil
         val markWon = Markwon.builder(itemView.context)
             .usePlugin(StrikethroughPlugin.create())
             .usePlugin(TaskListPlugin.create(itemView.context))
+            .usePlugin(HtmlPlugin.create())
             .usePlugin(object : AbstractMarkwonPlugin() {
                 override fun configureVisitor(builder: MarkwonVisitor.Builder) {
                     super.configureVisitor(builder)
@@ -55,6 +57,9 @@ class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtil
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         getItem(position).let { note ->
             holder.apply {
+
+                cardView.transitionName = "recyclerView_${note.id}"
+
                 noteTitle.text = note.title
                 markWon.setMarkdown(noteContent, note.content)
                 noteDate.text = note.date
@@ -69,6 +74,11 @@ class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtil
                 }
 
                 noteContent.setOnClickListener {
+
+                    val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment(note)
+                    val extras = FragmentNavigatorExtras(cardView to "recyclerView_${note.id}")
+                    it.closeKeyboard()
+                    Navigation.findNavController(it).navigate(action, extras)
 
                 }
             }
