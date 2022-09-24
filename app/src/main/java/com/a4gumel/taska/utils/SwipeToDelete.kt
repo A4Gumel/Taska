@@ -3,7 +3,7 @@ package com.a4gumel.taska.utils
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeToDelete : ItemTouchHelper.SimpleCallback(
+abstract class SwipeToDelete : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     ItemTouchHelper.START or ItemTouchHelper.END
 ) {
@@ -14,9 +14,5 @@ class SwipeToDelete : ItemTouchHelper.SimpleCallback(
         target: RecyclerView.ViewHolder
     ): Boolean {
         return true
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
     }
 }

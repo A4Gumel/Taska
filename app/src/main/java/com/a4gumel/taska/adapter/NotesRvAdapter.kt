@@ -3,11 +3,15 @@ package com.a4gumel.taska.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.a4gumel.taska.R
 import com.a4gumel.taska.databinding.NoteItemLayoutBinding
+import com.a4gumel.taska.fragments.HomeFragmentDirections
 import com.a4gumel.taska.model.Note
+import com.a4gumel.taska.utils.closeKeyboard
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import io.noties.markwon.AbstractMarkwonPlugin
@@ -35,7 +39,7 @@ class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtil
                     super.configureVisitor(builder)
                     builder.on(
                         SoftLineBreak::class.java
-                    ){visitor, _ , -> visitor.forceNewLine()}
+                    ){visitor, _ -> visitor.forceNewLine()}
                 }
             })
             .build()
@@ -58,6 +62,10 @@ class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtil
 
                 itemView.setOnClickListener {
 
+                    val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment(note)
+                    val extras = FragmentNavigatorExtras(cardView to "recyclerView_${note.id}")
+                    it.closeKeyboard()
+                    Navigation.findNavController(it).navigate(action, extras)
                 }
 
                 noteContent.setOnClickListener {
