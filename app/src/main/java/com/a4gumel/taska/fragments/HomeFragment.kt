@@ -124,6 +124,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun showDataChanges() {
         noteActivityViewModel.getAllNotes().observe(viewLifecycleOwner) { list ->
             //no data visible
+            rvAdapter.submitList(list)
         }
     }
 

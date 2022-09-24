@@ -17,7 +17,7 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import org.commonmark.node.SoftLineBreak
 
-class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtilCallback){
+class NotesRvAdapter: ListAdapter<Note, NotesRvAdapter.NotesViewHolder>(DiffUtilCallback()){
 
     inner class NotesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
