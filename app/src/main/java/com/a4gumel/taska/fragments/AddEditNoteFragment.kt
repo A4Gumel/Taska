@@ -4,8 +4,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -20,6 +23,8 @@ import com.google.android.material.transition.MaterialContainerTransform
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +37,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
     private lateinit var contentBinding: FragmentAddEditNoteBinding
     private var note: Note? = null
     private var color = -1
+    private lateinit var result: String
     private val noteActivityViewModel: NoteActivityViewModel by activityViewModels()
     private val currentDate = SimpleDateFormat.getInstance().format(Date())
     private var job = CoroutineScope(Dispatchers.Main)
@@ -60,6 +66,11 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
         val activity = activity as MainActivity
 
         activity.setSupportActionBar(contentBinding.addNoteToolbar)
+
+        ViewCompat.setTransitionName(
+            contentBinding.noteScrollView,
+            "recyclerView_${args.note?.id}"
+        )
 
         contentBinding.addNoteToolbar.setNavigationOnClickListener {
             requireView().closeKeyboard()
@@ -108,6 +119,33 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                 })
                 .show(activity.supportFragmentManager)
         }
+
+        // When user opens up and existing note then
+        setUpNote()
+    }
+
+    private fun setUpNote() {
+        val note = args.note
+        val title = contentBinding.noteTitleEdt
+        val content = contentBinding.noteContentEdt
+
+        if (note != null) {
+
+            color = note.color
+            title.setText(note.title)
+            content.renderMD(note.content)
+
+            contentBinding.apply {
+                job.launch {
+                    delay(10)
+                }
+                contentBinding.noteScrollView.setBackgroundColor(color)
+                contentBinding.parentLayout.setBackgroundColor(color)
+            }
+
+            activity?.window?.statusBarColor = color
+            activity?.window?.navigationBarColor = color
+        }
     }
 
     private fun saveNote() {
@@ -137,15 +175,38 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                         )
                     )
 
+                    result = "Saved"
+                    setFragmentResult(
+                        "key",
+                        bundleOf("bundleKey" to result)
+                    )
+
                     navController.navigate(AddEditNoteFragmentDirections.actionAddEditNoteFragmentToHomeFragment())
 
-                } else -> {
+                }
+                else -> {
 
-                    
+                    updateNote()
+                    navController.popBackStack()
                 }
             }
         }
 
+    }
+
+    private fun updateNote() {
+
+        if (note!=null) {
+            noteActivityViewModel.updateNote(
+                Note(
+                    note!!.id,
+                    contentBinding.noteTitleEdt.text.toString(),
+                    contentBinding.noteContentEdt.getMD(),
+                    currentDate,
+                    color
+                )
+            )
+        }
     }
 
 }
