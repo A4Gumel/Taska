@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -63,9 +64,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val navController = Navigation.findNavController(view)
         requireView().closeKeyboard()
 
-//        CoroutineScope(Dispatchers.Main).launch {
-//            delay(10)
-//        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(10)
+            activity.window.statusBarColor = resources.getColor(R.color.purple5)
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            activity.window.navigationBarColor = resources.getColor(R.color.purple5)
+        }
 
         homeBinding.addNoteFab.setOnClickListener {
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment())

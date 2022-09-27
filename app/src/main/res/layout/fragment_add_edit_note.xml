@@ -92,6 +92,7 @@
                                 android:importantForAutofill="no"
                                 android:inputType="textFilter"
                                 android:textColor="@color/purple5"
+                                android:textStyle="bold"
                                 android:textColorHint="#3949AB"
                                 android:textSize="16sp" />
 
