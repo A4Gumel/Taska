@@ -41,3 +41,17 @@ build gradle
 Run app on device or emulator
 
 ```
+
+## Usage 
+
+``` bash 
+open Android Studio
+git clone https://github.com/A4Gumel/Taska.git
+build gradle
+
+Edit and make pull request to be merged
+
+```
+
+# License
+MIT
